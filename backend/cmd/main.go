@@ -1,18 +1,18 @@
 package main
 
 import (
-	"backend/internal/database"
-	"backend/internal/user"
-	"log"
+	"backend/internal/config"
+	"fmt"
 )
 
 func main() {
-	database.DB, _ = database.InitDB()
-	nu := user.NewUser{
-		Username: "testuser",
-		Password: "testpass",
-	}
-	if err := user.AddUser(nu); err != nil {
-		log.Fatalf("AddUser failed: %v", err)
-	}
+	cfg := config.LoadConfig()
+	fmt.Print(cfg)
+	// database.DB, _ = database.InitDB()
+	// defer database.DB.Close()
+
+	// srv := new(server.Server)
+	// if err := srv.Run("8080"); err != nil {
+	// 	log.Fatal(err.Error())
+	// }
 }

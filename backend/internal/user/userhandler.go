@@ -6,7 +6,7 @@ import (
 )
 
 func AddUser(newUser NewUser) error {
-	_, err := database.DB.Exec("INSERT INTO users (name, password) VALUES ($1, $2) RETURNING id", newUser.Username, newUser.Password)
+	_, err := database.DB.Exec("INSERT INTO users (name, password, email) VALUES ($1, $2, $3)", newUser.Username, newUser.Password, newUser.Email)
 	if err != nil {
 		log.Fatal(err)
 	}
