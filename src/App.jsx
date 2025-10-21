@@ -1,620 +1,286 @@
 import React, { useState } from 'react';
 
-// === Раздел: Утилиты (Иконки) ===
-
-const GoogleIcon = () => (
-  <svg className="w-5 h-5" viewBox="0 0 48 48">
-    <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12s5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24s8.955,20,20,20s20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"></path>
-    <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"></path>
-    <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.222,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"></path>
-    <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571l6.19,5.238C42.021,35.596,44,30.138,44,24C44,22.659,43.862,21.35,43.611,20.083z"></path>
-  </svg>
-);
-const PlusIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>;
-const PencilIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.5L15.232 5.232z" /></svg>;
-const TrashIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>;
-const LogoutIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>;
-const ArrowRightIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>;
-const FolderIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" /></svg>;
-const XIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>;
-
-
-// Иконка звезды для избранного
-const StarIcon = ({ fill = 'none' }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" 
-    className="h-4 w-4" 
-    fill={fill === 'currentColor' ? 'currentColor' : 'none'} 
-    viewBox="0 0 24 24" 
-    stroke="currentColor" 
-    strokeWidth="2" 
-    strokeLinecap="round" 
-    strokeLinejoin="round">
-    {/* Чистый путь на основе Polygon, который не должен обрезаться */}
-    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+// --- Иконки (SVG-компоненты) ---
+// Для простоты и самодостаточности файла, иконки определены как React-компоненты.
+const NotesIcon = ({ className }) => (
+  <svg className={className} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
   </svg>
 );
 
+const TagIcon = ({ className }) => (
+  <svg className={className} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5a2 2 0 012 2v5a2 2 0 01-2 2H7a2 2 0 01-2-2V5a2 2 0 012-2zm0 0v11a2 2 0 002 2h5a2 2 0 002-2v-5a2 2 0 00-2-2H7z" />
+  </svg>
+);
 
-// === Раздел: Компоненты Авторизации и Вступительной Страницы ===
+const StarIcon = ({ className, solid }) => (
+    <svg className={className} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill={solid ? "currentColor" : "none"} stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.196-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.783-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+    </svg>
+);
 
-// --- Компонент: Вступительная страница ---
-const LandingPage = ({ onNavigateToAuth }) => {
-    return (
-        <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
-            <div className="relative w-full max-w-5xl h-[600px] grid lg:grid-cols-2 items-center bg-white rounded-2xl shadow-xl overflow-hidden">
-                <div className="p-8 md:p-12 h-full flex flex-col justify-center text-center lg:text-left">
-                    <h1 className="text-4xl md:text-5xl font-bold text-gray-800 leading-tight mb-4 animate-fade-in-down">
-                        Ваши идеи. <span className="text-blue-600">Организованно.</span>
-                    </h1>
-                    <p className="text-gray-600 text-lg mb-8 animate-fade-in-up">
-                        Простое и удобное приложение для заметок, которое поможет вам сосредоточиться на главном.
-                    </p>
-                    <div className="flex justify-center lg:justify-start">
-                        <button 
-                            onClick={onNavigateToAuth}
-                            className="flex items-center gap-2 py-3 px-8 font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-all transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 animate-fade-in-up"
-                            style={{ animationDelay: '0.2s' }}
-                        >
-                            Начать <ArrowRightIcon />
-                        </button>
-                    </div>
-                </div>
-                <div className="hidden lg:block h-full w-full relative">
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-600 to-purple-600 opacity-80"></div>
-                    <img 
-                      src="https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?q=80&w=2072&auto=format&fit=crop" 
-                      alt="Рабочее место с заметками" 
-                      className="w-full h-full object-cover"
-                    />
-                </div>
-            </div>
-        </div>
-    );
-};
+const ArchiveIcon = ({ className }) => (
+  <svg className={className} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+  </svg>
+);
 
-// --- Компонент: Форма входа ---
-const LoginForm = ({ onSwitchToRegister, onLogin }) => {
+const SettingsIcon = ({ className }) => (
+  <svg className={className} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+  </svg>
+);
+
+const SearchIcon = ({ className }) => (
+    <svg className={className} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+    </svg>
+);
+
+const BellIcon = ({ className }) => (
+    <svg className={className} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+    </svg>
+);
+
+const PinIcon = ({ className }) => (
+    <svg className={className} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+    </svg>
+);
+
+const EditIcon = ({ className }) => (
+    <svg className={className} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
+    </svg>
+);
+
+const DeleteIcon = ({ className }) => (
+    <svg className={className} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.134-2.033-2.134H8.033c-1.12 0-2.033.954-2.033 2.134v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+    </svg>
+);
+
+// --- Моковые данные ---
+const mockNotes = [
+  {
+    id: 1,
+    title: 'Идеи для квартального отчета',
+    content: 'Необходимо проанализировать данные по продажам за Q3, выделить ключевые метрики роста и подготовить визуализацию для презентации...',
+    tags: [{ name: 'Работа', color: 'blue' }, { name: 'Отчеты', color: 'green' }],
+    isPinned: true,
+    isFavorite: true,
+  },
+  {
+    id: 2,
+    title: 'План на выходные',
+    content: '1. Сходить в спортзал. 2. Прочитать новую книгу по дизайну. 3. Встретиться с друзьями в центре города...',
+    tags: [{ name: 'Личное', color: 'purple' }],
+    isPinned: false,
+    isFavorite: false,
+  },
+  {
+    id: 3,
+    title: 'Рецепт пасты Карбонара',
+    content: 'Ингредиенты: спагетти, гуанчале, яичные желтки, сыр пекорино романо, черный перец. Главное — не добавлять сливки!',
+    tags: [{ name: 'Рецепты', color: 'yellow' }],
+    isPinned: false,
+    isFavorite: true,
+  },
+  {
+    id: 4,
+    title: 'Список покупок',
+    content: 'Молоко, хлеб, яйца, авокадо, куриное филе, оливковое масло.',
+    tags: [{ name: 'Быт', color: 'red' }],
+    isPinned: false,
+    isFavorite: false,
+  },
+    {
+    id: 5,
+    title: 'Мысли о редизайне проекта',
+    content: 'Обновить цветовую палитру, использовать более современный шрифт, упростить навигацию. Собрать референсы с Dribbble.',
+    tags: [{ name: 'Проект X', color: 'indigo' }, { name: 'Дизайн', color: 'pink' }],
+    isPinned: true,
+    isFavorite: false,
+  },
+  {
+    id: 6,
+    title: 'Подготовка к отпуску',
+    content: 'Купить билеты, забронировать отель, составить маршрут по достопримечательностям, собрать аптечку.',
+    tags: [{ name: 'Путешествия', color: 'teal' }],
+    isPinned: false,
+    isFavorite: true,
+  },
+];
+
+// --- Компоненты UI ---
+
+const Sidebar = ({ activeItem, setActiveItem }) => {
+  const menuItems = [
+    { id: 'notes', icon: NotesIcon, label: 'Заметки' },
+    { id: 'tags', icon: TagIcon, label: 'Теги' },
+    { id: 'favorites', icon: StarIcon, label: 'Избранное' },
+    { id: 'archive', icon: ArchiveIcon, label: 'Архив' },
+    { id: 'settings', icon: SettingsIcon, label: 'Настройки' },
+  ];
+
   return (
-    <div className="w-full animate-bounce-in">
-      <h2 className="text-3xl font-bold text-gray-800 mb-2">С возвращением!</h2>
-      <p className="text-gray-600 mb-6">Пожалуйста, войдите в свой аккаунт.</p>
-      <form onSubmit={(e) => { e.preventDefault(); onLogin(); }}>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-medium mb-1" htmlFor="login-email">Email</label>
-          <input className="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition" id="login-email" type="email" placeholder="you@example.com"/>
-        </div>
-        <div className="mb-6">
-          <label className="block text-gray-700 text-sm font-medium mb-1" htmlFor="login-password">Пароль</label>
-          <input className="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition" id="login-password" type="password" placeholder="••••••••"/>
-        </div>
-        <button type="submit" className="w-full py-3 font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Войти</button>
-      </form>
-      <div className="flex items-center my-4"><hr className="w-full border-gray-300" /><span className="px-2 text-sm text-gray-500">ИЛИ</span><hr className="w-full border-gray-300" /></div>
-      <button onClick={onLogin} type="button" className="w-full py-3 font-semibold text-gray-700 bg-white border border-gray-300 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400">
-        <GoogleIcon /><span>Войти с Google</span>
+    <aside className="bg-white w-20 lg:w-24 h-screen flex flex-col items-center py-8 fixed left-0 top-0 border-r border-gray-200">
+      <div className="text-blue-600 font-bold text-2xl">N.</div>
+      <nav className="flex flex-col items-center gap-6 mt-16 flex-grow">
+        {menuItems.map(item => (
+          <button
+            key={item.id}
+            onClick={() => setActiveItem(item.id)}
+            className={`p-3 rounded-xl transition-colors duration-200 ${
+              activeItem === item.id 
+                ? 'bg-blue-100 text-blue-600' 
+                : 'text-gray-500 hover:bg-gray-100'
+            }`}
+            aria-label={item.label}
+          >
+            <item.icon className="w-6 h-6" />
+          </button>
+        ))}
+      </nav>
+      <button className="bg-blue-600 text-white w-12 h-12 rounded-2xl flex items-center justify-center hover:bg-blue-700 transition-colors shadow-lg hover:shadow-blue-300">
+        <svg className="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+        </svg>
       </button>
-      <p className="text-center text-sm text-gray-600 mt-8">
-        Еще нет аккаунта? <button onClick={onSwitchToRegister} className="font-medium text-blue-600 hover:underline focus:outline-none">Зарегистрироваться</button>
-      </p>
-    </div>
+    </aside>
   );
 };
 
-// --- Компонент: Форма регистрации ---
-const RegisterForm = ({ onSwitchToLogin }) => {
+const Header = () => {
   return (
-    <div className="w-full animate-bounce-in">
-      <h2 className="text-3xl font-bold text-gray-800 mb-2">Создать аккаунт</h2>
-      <p className="text-gray-600 mb-6">Присоединяйтесь к нам! Это быстро и легко.</p>
-      <form onSubmit={(e) => e.preventDefault()}>
-        <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-medium mb-1" htmlFor="register-email">Email</label>
-            <input className="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition" id="register-email" type="email" placeholder="you@example.com"/>
+    <header className="bg-gray-50/80 backdrop-blur-sm sticky top-0 z-10 py-6 px-8">
+        <div className="flex justify-between items-center">
+            <div>
+                <h1 className="text-2xl font-bold text-gray-800">Hello, Alex!</h1>
+                <p className="text-gray-500">Here are your latest notes.</p>
+            </div>
+            <div className="flex items-center gap-6">
+                <div className="relative">
+                    <SearchIcon className="w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"/>
+                    <input type="text" placeholder="Search notes..." className="bg-white border border-gray-200 rounded-lg py-2 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"/>
+                </div>
+                <button className="text-gray-500 hover:text-gray-800 relative">
+                    <BellIcon className="w-6 h-6"/>
+                    <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+                </button>
+                <img src="https://placehold.co/40x40/E2E8F0/4A5568?text=A" alt="User Profile" className="w-10 h-10 rounded-full object-cover"/>
+            </div>
         </div>
-        <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-medium mb-1" htmlFor="register-password">Пароль</label>
-            <input className="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition" id="register-password" type="password" placeholder="••••••••"/>
+    </header>
+  );
+};
+
+const StatCard = ({ title, value, icon, color }) => {
+    const colors = {
+        blue: 'bg-blue-100 text-blue-600',
+        green: 'bg-green-100 text-green-600',
+        yellow: 'bg-yellow-100 text-yellow-600',
+        purple: 'bg-purple-100 text-purple-600',
+    };
+    return (
+        <div className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow flex items-start justify-between">
+            <div>
+                <p className="text-gray-500 text-sm">{title}</p>
+                <p className="text-2xl font-bold text-gray-800 mt-1">{value}</p>
+            </div>
+            <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${colors[color]}`}>
+                {icon}
+            </div>
         </div>
-        <div className="mb-6">
-            <label className="block text-gray-700 text-sm font-medium mb-1" htmlFor="confirm-password">Подтвердите пароль</label>
-            <input className="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition" id="confirm-password" type="password" placeholder="••••••••"/>
+    );
+};
+
+const NoteTag = ({ tag }) => {
+    const tagColors = {
+        blue: 'bg-blue-100 text-blue-700',
+        green: 'bg-green-100 text-green-700',
+        purple: 'bg-purple-100 text-purple-700',
+        yellow: 'bg-yellow-100 text-yellow-700',
+        red: 'bg-red-100 text-red-700',
+        indigo: 'bg-indigo-100 text-indigo-700',
+        pink: 'bg-pink-100 text-pink-700',
+        teal: 'bg-teal-100 text-teal-700',
+    };
+    return (
+        <span className={`text-xs font-medium px-2 py-1 rounded-md ${tagColors[tag.color] || 'bg-gray-100 text-gray-700'}`}>
+            {tag.name}
+        </span>
+    );
+};
+
+const NoteCard = ({ note }) => {
+  return (
+    <div className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col h-full">
+        <div className="flex justify-between items-start mb-3">
+            <h3 className="font-bold text-gray-800 flex-grow pr-2">{note.title}</h3>
+            {note.isPinned && <PinIcon className="w-5 h-5 text-gray-400 flex-shrink-0" />}
         </div>
-        <button type="submit" className="w-full py-3 font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Зарегистрироваться</button>
-      </form>
-      <p className="text-center text-sm text-gray-600 mt-8">
-        Уже есть аккаунт? <button onClick={onSwitchToLogin} className="font-medium text-blue-600 hover:underline focus:outline-none">Войти</button>
-      </p>
+        <p className="text-gray-600 text-sm mb-4 flex-grow">{note.content}</p>
+        <div className="flex items-center justify-between">
+            <div className="flex gap-2 flex-wrap">
+                {note.tags.map(tag => <NoteTag key={tag.name} tag={tag} />)}
+            </div>
+            <div className="flex items-center gap-2">
+                <button className="text-gray-400 hover:text-blue-600 transition-colors">
+                    <EditIcon className="w-5 h-5"/>
+                </button>
+                <button className="text-gray-400 hover:text-red-600 transition-colors">
+                    <DeleteIcon className="w-5 h-5"/>
+                </button>
+                 <button className={`transition-colors ${note.isFavorite ? 'text-yellow-500' : 'text-gray-400 hover:text-yellow-500'}`}>
+                    <StarIcon className="w-5 h-5" solid={note.isFavorite} />
+                </button>
+            </div>
+        </div>
     </div>
   );
 };
 
-// --- Компонент: Страница авторизации ---
-const AuthPage = ({ onLogin }) => {
-    // Переключение между входом и регистрацией
-    const [isLoginView, setIsLoginView] = useState(true);
-    const switchToRegister = () => setIsLoginView(false);
-    const switchToLogin = () => setIsLoginView(true);
 
-    return (
-        <div className="min-h-screen flex items-center justify-center p-4 animate-fade-in">
-            <div className="grid lg:grid-cols-2 max-w-4xl w-full bg-white rounded-2xl shadow-xl overflow-hidden">
-                <div className="hidden lg:block relative">
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-600 to-purple-600 opacity-80"></div>
-                    <img src="https://images.unsplash.com/photo-1585079542156-2755d9c8a094?q=80&w=1974&auto=format&fit=crop" alt="Абстрактный фон" className="w-full h-full object-cover"/>
-                    <div className="absolute inset-0 flex flex-col justify-end p-12 text-white">
-                        <h1 className="text-4xl font-bold leading-tight mb-4">Начните свой путь с нами</h1>
-                        <p className="text-lg">Откройте для себя мир новых возможностей.</p>
-                    </div>
-                </div>
-                <div className="p-8 md:p-12 flex flex-col justify-center">
-                    {isLoginView ? <LoginForm onSwitchToRegister={switchToRegister} onLogin={onLogin} /> : <RegisterForm onSwitchToLogin={switchToLogin} />}
-                </div>
-            </div>
-        </div>
-    );
-};
-
-
-// === Раздел: Компоненты Приложения Заметок ===
-
-// --- Компонент: Модальное окно создания/редактирования заметки ---
-const NoteModal = ({ note, onSave, onClose, folders }) => {
-    const [title, setTitle] = useState(note?.title || '');
-    const [content, setContent] = useState(note?.content || '');
-    // Добавляем состояние для папки, по умолчанию 'all' или существующая папка
-    const [folderId, setFolderId] = useState(note?.folderId || 'all'); 
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        onSave({ ...note, title, content, folderId }); // Передаем ID папки
-    };
-
-    const availableFolders = folders.filter(f => f.id !== 'all');
-
-    return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 animate-fade-in-fast">
-            <div className="bg-white rounded-lg shadow-xl p-8 w-full max-w-md m-4 animate-modal-pop">
-                <h2 className="text-2xl font-bold text-gray-800 mb-4">{note?.id ? 'Редактировать заметку' : 'Создать заметку'}</h2>
-                <form onSubmit={handleSubmit}>
-                    <div className="mb-4">
-                        <label className="block text-gray-700 text-sm font-medium mb-1" htmlFor="title">Заголовок</label>
-                        <input id="title" type="text" value={title} onChange={(e) => setTitle(e.target.value)} className="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition" required />
-                    </div>
-                    <div className="mb-4">
-                        <label className="block text-gray-700 text-sm font-medium mb-1" htmlFor="folder">Папка</label>
-                        <select 
-                            id="folder" 
-                            value={folderId} 
-                            onChange={(e) => setFolderId(e.target.value)} 
-                            className="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-                        >
-                            <option value="all">Без папки</option>
-                            {availableFolders.map(f => (
-                                <option key={f.id} value={f.id}>{f.name}</option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className="mb-6">
-                        <label className="block text-gray-700 text-sm font-medium mb-1" htmlFor="content">Содержание</label>
-                        <textarea id="content" value={content} onChange={(e) => setContent(e.target.value)} className="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition h-32 resize-none" required />
-                    </div>
-                    <div className="flex justify-end gap-4">
-                        <button type="button" onClick={onClose} className="py-2 px-4 font-semibold text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">Отмена</button>
-                        <button type="submit" className="py-2 px-4 font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors">Сохранить</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    );
-};
-
-// --- Компонент: Карточка заметки ---
-const NoteCard = ({ note, onEdit, onDelete, onToggleFavorite, index, folderName }) => {
-    // Функция для форматирования ISO-строки даты в понятный вид
-    const formatDate = (isoString) => {
-        const date = new Date(isoString);
-        // Проверяем, что date валидна
-        if (isNaN(date.getTime())) return 'Нет даты'; 
-        return date.toLocaleDateString('ru-RU', { 
-            year: 'numeric', month: 'short', day: 'numeric', 
-            hour: '2-digit', minute: '2-digit' 
-        });
-    };
-
-    return (
-        // Используем animate-card-slide для плавного появления с задержкой
-        <div 
-            className="bg-white rounded-xl shadow-md p-6 flex flex-col justify-between hover:shadow-lg transition-shadow animate-card-slide"
-            style={{ animationDelay: `${index * 0.05}s` }}
-        >
-            <div className="flex justify-between items-start mb-2">
-                <h3 className="text-xl font-bold text-gray-800">{note.title}</h3>
-                <button 
-                    onClick={() => onToggleFavorite(note.id, note.isFavorite)}
-                    className={`rounded-full transition-colors flex items-center justify-center w-8 h-8 ${
-                        note.isFavorite 
-                            ? 'text-yellow-500 hover:text-yellow-600 bg-yellow-100' 
-                            : 'text-gray-400 hover:text-yellow-500 hover:bg-gray-50'
-                    }`}
-                    title={note.isFavorite ? 'Удалить из избранного' : 'Добавить в избранное'}
-                >
-                    <StarIcon fill={note.isFavorite ? 'currentColor' : 'none'} />
-                </button>
-            </div>
-            <p className="text-gray-600 whitespace-pre-wrap flex-grow">{note.content}</p>
-            
-            <div className="mt-4 pt-3 border-t border-gray-100 flex justify-between items-center text-xs">
-                <span className="text-gray-400">
-                    {folderName && <span className="text-blue-600 font-medium mr-2">{folderName}</span>}
-                    {formatDate(note.timestamp)}
-                </span>
-                <div className="flex justify-end gap-2">
-                    <button onClick={() => onEdit(note)} className="p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-100 rounded-full transition-colors" title="Редактировать"><PencilIcon /></button>
-                    <button onClick={() => onDelete(note.id)} className="p-2 text-gray-500 hover:text-red-600 hover:bg-red-100 rounded-full transition-colors" title="Удалить"><TrashIcon /></button>
-                </div>
-            </div>
-        </div>
-    );
-};
-
-// --- Компонент: Боковое меню с папками ---
-const FolderSidebar = ({ folders, currentFolderId, onSelectFolder, onAddFolder, onDeleteFolder }) => {
-    const [newFolderName, setNewFolderName] = useState('');
-
-    const handleAdd = () => {
-        if (newFolderName.trim()) {
-            onAddFolder(newFolderName.trim());
-            setNewFolderName('');
-        }
-    };
-
-    return (
-        <div className="bg-white border-r border-gray-200 p-4 h-full flex flex-col animate-sidebar-slide">
-            <h2 className="text-xl font-bold text-gray-800 mb-4">Папки</h2>
-            
-            <div className="flex-grow space-y-1 overflow-y-auto pr-2">
-                {folders.map(folder => (
-                    <div 
-                        key={folder.id}
-                        className={`
-                            flex justify-between items-center p-2 rounded-lg transition-colors cursor-pointer 
-                            ${currentFolderId === folder.id 
-                                ? 'bg-blue-100 text-blue-700 font-semibold' 
-                                : 'text-gray-700 hover:bg-gray-50'
-                            }
-                        `}
-                        onClick={() => onSelectFolder(folder.id)}
-                    >
-                        <div className="flex items-center gap-2 truncate">
-                            <FolderIcon className="w-5 h-5" />
-                            <span className="truncate">{folder.name}</span>
-                        </div>
-                        
-                        {/* Кнопка удаления (только для пользовательских папок) */}
-                        {!folder.isDefault && (
-                            <button 
-                                onClick={(e) => { e.stopPropagation(); onDeleteFolder(folder.id); }}
-                                className="p-1 text-gray-400 hover:text-red-600 hover:bg-red-100 rounded-full transition-colors ml-2 flex-shrink-0"
-                                title="Удалить папку"
-                            >
-                                <XIcon />
-                            </button>
-                        )}
-                    </div>
-                ))}
-            </div>
-
-            <div className="mt-4 pt-4 border-t border-gray-200 flex flex-col gap-2">
-                <input 
-                    type="text" 
-                    placeholder="Название новой папки" 
-                    value={newFolderName}
-                    onChange={(e) => setNewFolderName(e.target.value)}
-                    onKeyPress={(e) => { if (e.key === 'Enter') handleAdd(); }}
-                    className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-                <button 
-                    onClick={handleAdd}
-                    className="w-full py-2 font-semibold text-white bg-green-500 rounded-lg hover:bg-green-600 transition-colors"
-                >
-                    Добавить папку
-                </button>
-            </div>
-        </div>
-    );
-};
-
-// --- Компонент: Главная страница заметок (на локальном состоянии) ---
-const NotesPage = ({ onLogout }) => {
-    // Исходные папки
-    const initialFolders = [
-        { id: 'all', name: 'Все заметки', isDefault: true },
-        { id: 'work', name: 'Работа' },
-        { id: 'personal', name: 'Личное' },
-    ];
-    // Мокированные данные для начала
-    const [folders, setFolders] = useState(initialFolders);
-    const [notes, setNotes] = useState([
-        { id: 1, title: 'Идея для проекта', content: 'Создать приложение для управления задачами с использованием React и Tailwind CSS.', isFavorite: true, timestamp: new Date().toISOString(), folderId: 'work' },
-        { id: 2, title: 'Список покупок', content: '- Молоко\n- Хлеб\n- Яйца', isFavorite: false, timestamp: new Date(Date.now() - 86400000).toISOString(), folderId: 'personal' },
-        { id: 3, title: 'Цитата дня', content: '"Лучший способ предсказать будущее — это создать его." - Питер Друкер', isFavorite: false, timestamp: new Date(Date.now() - 172800000).toISOString(), folderId: 'all' },
-    ]);
-
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [editingNote, setEditingNote] = useState(null);
-    const [sortBy, setSortBy] = useState('favorite'); 
-    const [currentFolderId, setCurrentFolderId] = useState('all'); // ID выбранной папки
-
-    // --- ЛОГИКА ЗАМЕТОК ---
-
-    // 1. СОХРАНЕНИЕ / ОБНОВЛЕНИЕ ЗАМЕТКИ (CRUD: CREATE/UPDATE)
-    const handleSaveNote = (savedNote) => {
-        const noteData = {
-            title: savedNote.title,
-            content: savedNote.content,
-            isFavorite: savedNote.isFavorite || false, 
-            folderId: savedNote.folderId || 'all', // Используем переданный folderId
-            timestamp: new Date().toISOString(), // Обновляем дату при сохранении
-        };
-
-        if (savedNote.id) {
-            // UPDATE: Обновление существующей заметки
-            setNotes(prevNotes => prevNotes.map(n => 
-                n.id === savedNote.id ? { ...n, ...noteData } : n
-            ));
-        } else {
-            // CREATE: Создание новой заметки
-            setNotes(prevNotes => [{ ...noteData, id: Date.now() }, ...prevNotes]);
-        }
-        
-        setIsModalOpen(false);
-        setEditingNote(null);
-    };
-    
-    // 2. УДАЛЕНИЕ ЗАМЕТКИ (CRUD: DELETE)
-    const handleDelete = (id) => {
-        setNotes(prevNotes => prevNotes.filter(n => n.id !== id));
-    };
-    
-    // 3. ПЕРЕКЛЮЧЕНИЕ ИЗБРАННОГО (CRUD: UPDATE)
-    const handleToggleFavorite = (id, currentStatus) => {
-        setNotes(prevNotes => prevNotes.map(n => 
-            n.id === id ? { ...n, isFavorite: !currentStatus } : n
-        ));
-    };
-
-    // --- Вспомогательные функции UI (для модального окна и FAB) ---
-    const handleEdit = (note) => {
-        setEditingNote(note);
-        setIsModalOpen(true);
-    };
-
-    const handleAddNew = () => {
-        // Устанавливаем note=null для создания новой заметки
-        setEditingNote(null);
-        setIsModalOpen(true);
-    };
-    // --- КОНЕЦ Вспомогательных функций UI ---
-
-
-    // --- ЛОГИКА ПАПОК ---
-
-    const handleAddFolder = (name) => {
-        const newFolder = {
-            id: Date.now().toString(),
-            name,
-        };
-        setFolders(prev => [...prev, newFolder]);
-    };
-
-    const handleDeleteFolder = (id) => {
-        // Удаляем папку
-        setFolders(prev => prev.filter(f => f.id !== id));
-        // Перемещаем заметки из удаленной папки в папку 'all'
-        setNotes(prev => prev.map(n => 
-            n.folderId === id ? { ...n, folderId: 'all' } : n
-        ));
-        // Сбрасываем фильтр, если удалили активную папку
-        if (currentFolderId === id) {
-            setCurrentFolderId('all');
-        }
-    };
-    
-    // --- ФИЛЬТРАЦИЯ И СОРТИРОВКА ---
-
-    const getFilteredAndSortedNotes = () => {
-        // 1. Фильтрация
-        let filtered = notes;
-        if (currentFolderId !== 'all') {
-            filtered = notes.filter(note => note.folderId === currentFolderId);
-        }
-        
-        // 2. Сортировка
-        const sorted = [...filtered];
-        
-        sorted.sort((a, b) => {
-            // Приоритет: Избранное всегда вверху
-            if (a.isFavorite && !b.isFavorite) return -1;
-            if (!a.isFavorite && b.isFavorite) return 1;
-            
-            // Внутри групп сортируем по выбранному критерию
-            if (sortBy === 'date') {
-                return new Date(b.timestamp) - new Date(a.timestamp); // Новые сверху
-            }
-            if (sortBy === 'title') {
-                return a.title.localeCompare(b.title); // А-Я
-            }
-            return 0; // Сохраняем порядок
-        });
-
-        return sorted;
-    };
-
-    const sortedNotes = getFilteredAndSortedNotes();
-    const currentFolderName = folders.find(f => f.id === currentFolderId)?.name || 'Все заметки';
-
-    return (
-        <div className="min-h-screen bg-gray-100 animate-fade-in">
-            <header className="bg-white shadow-sm p-4 flex flex-col sm:flex-row justify-between items-center sticky top-0 z-20">
-                <h1 className="text-2xl font-bold text-gray-800 mb-2 sm:mb-0">
-                    Приложение для Заметок
-                </h1>
-                <div className="flex items-center gap-4">
-                    {/* Выбор сортировки */}
-                    <div className="flex items-center gap-2">
-                        <label htmlFor="sort-select" className="text-sm text-gray-500 hidden sm:block">Сортировать:</label>
-                        <select 
-                            id="sort-select" 
-                            value={sortBy} 
-                            onChange={(e) => setSortBy(e.target.value)}
-                            className="p-2 border border-gray-300 rounded-lg bg-white shadow-sm focus:ring-blue-500 focus:border-blue-500 transition cursor-pointer"
-                        >
-                            <option value="favorite">Избранное (Сначала)</option>
-                            <option value="date">Дате (Новые)</option>
-                            <option value="title">Названию (А-Я)</option>
-                        </select>
-                    </div>
-
-                    <button onClick={onLogout} className="p-2 text-gray-600 hover:text-red-600 hover:bg-red-100 rounded-full transition-colors" title="Выйти">
-                        <LogoutIcon />
-                    </button>
-                </div>
-            </header>
-            
-            <div className="grid grid-cols-1 md:grid-cols-[250px_1fr] min-h-[calc(100vh-68px)]">
-                {/* Боковая панель (Сайдбар) */}
-                <div className="hidden md:block sticky top-16 h-[calc(100vh-68px)]">
-                    <FolderSidebar 
-                        folders={folders}
-                        currentFolderId={currentFolderId}
-                        onSelectFolder={setCurrentFolderId}
-                        onAddFolder={handleAddFolder}
-                        onDeleteFolder={handleDeleteFolder}
-                    />
-                </div>
-                
-                {/* Основное содержимое */}
-                <main className="p-4 md:p-8">
-                    <div className="max-w-7xl mx-auto">
-                        <h2 className="text-2xl font-bold text-gray-800 mb-6">{currentFolderName}</h2>
-                        
-                        {
-                            sortedNotes.length === 0 ? (
-                                <div className="text-center p-10 text-gray-500 bg-white rounded-xl shadow-lg">
-                                    <h3 className="text-xl font-semibold mb-2">Заметок в этой папке пока нет!</h3>
-                                    <p>Нажмите на синюю кнопку "+" внизу, чтобы добавить новую заметку.</p>
-                                </div>
-                            ) : (
-                                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                                    {sortedNotes.map((note, index) => (
-                                        <NoteCard 
-                                            key={note.id} 
-                                            note={note} 
-                                            onEdit={handleEdit} 
-                                            onDelete={handleDelete}
-                                            onToggleFavorite={handleToggleFavorite}
-                                            index={index} // Передача индекса для задержки анимации
-                                            folderName={folders.find(f => f.id === note.folderId)?.name}
-                                        />
-                                    ))}
-                                </div>
-                            )
-                        }
-                    </div>
-                </main>
-            </div>
-
-            {/* Кнопка добавления новой заметки */}
-            <button onClick={handleAddNew} className="fixed bottom-8 right-8 bg-blue-600 text-white p-4 rounded-full shadow-lg hover:bg-blue-700 transition-transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 z-30" title="Добавить заметку">
-                <PlusIcon />
-            </button>
-            {isModalOpen && <NoteModal note={editingNote} onSave={handleSaveNote} onClose={() => setIsModalOpen(false)} folders={folders} />}
-        </div>
-    );
-};
-
-
-// === Главный компонент: Роутер приложения (без Firebase) ===
-
+// --- Основной компонент приложения ---
 export default function App() {
-  const [currentView, setCurrentView] = useState('landing'); 
-  
-  const renderContent = () => {
-    
-    switch(currentView) {
-        case 'auth':
-            return <AuthPage onLogin={() => setCurrentView('notes')} />;
-        case 'notes':
-            // Передаем только onLogout, так как данные локальны
-            return <NotesPage onLogout={() => setCurrentView('auth')} />;
-        case 'landing':
-        default:
-            return <LandingPage onNavigateToAuth={() => setCurrentView('auth')} />;
-    }
-  }
+  const [activeItem, setActiveItem] = useState('notes');
 
   return (
-    <main className="bg-gray-100 font-sans">
-      {renderContent()}
-
-      {/* Глобальные стили для анимаций и шрифтов */}
-      <style>{`
-        /* Основные анимации */
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    <div className="bg-gray-50 min-h-screen font-sans text-gray-900">
+      <Sidebar activeItem={activeItem} setActiveItem={setActiveItem} />
+      
+      <main className="ml-20 lg:ml-24">
+        <Header />
         
-        /* Появление модального окна (Pop) */
-        @keyframes modalPop {
-          0% { opacity: 0; transform: scale(0.9) translateY(20px); }
-          100% { opacity: 1; transform: scale(1) translateY(0); }
-        }
-
-        /* Появление формы авторизации (Bounce-In) */
-        @keyframes bounceIn {
-          0% { opacity: 0; transform: scale(0.8) translateY(20px); }
-          80% { opacity: 1; transform: scale(1.02); }
-          100% { transform: scale(1); }
-        }
-
-        /* Появление элементов списка (Slide up) */
-        @keyframes cardSlide {
-            0% { opacity: 0; transform: translateY(20px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
-        
-        /* Появление бокового меню */
-        @keyframes sidebarSlide {
-            0% { opacity: 0; transform: translateX(-20px); }
-            100% { opacity: 1; transform: translateX(0); }
-        }
-
-        /* Плавные анимации лендинга */
-        @keyframes fadeInDown {
-          from { opacity: 0; transform: translateY(-20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes fadeInUp {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        
-        /* Применение классов */
-        .animate-fade-in { animation: fadeIn 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
-        .animate-modal-pop { animation: modalPop 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards; }
-        .animate-bounce-in { animation: bounceIn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; }
-        .animate-card-slide { animation: cardSlide 0.4s ease-out forwards; opacity: 0; } /* opacity: 0 важен для задержки */
-        .animate-sidebar-slide { animation: sidebarSlide 0.4s ease-out forwards; }
-
-
-        /* Сохраняем анимации лендинга */
-        .animate-fade-in-down { animation: fadeInDown 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; }
-        .animate-fade-in-up { animation: fadeInUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; }
-
-
-        body { font-family: 'Inter', sans-serif; }
-      `}</style>
-       <link rel="preconnect" href="https://fonts.googleapis.com"/>
-       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true"/>
-       <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
-    </main>
+        <div className="p-8">
+            {/* Секция статистики */}
+            <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+                <StatCard title="Total Notes" value="128" icon={<NotesIcon className="w-5 h-5" />} color="blue"/>
+                <StatCard title="Pinned" value="4" icon={<PinIcon className="w-5 h-5" />} color="green"/>
+                <StatCard title="Favorites" value="12" icon={<StarIcon className="w-5 h-5" />} color="yellow"/>
+                <StatCard title="Drafts" value="7" icon={<EditIcon className="w-5 h-5" />} color="purple"/>
+            </section>
+            
+            {/* Секция недавних заметок */}
+            <section>
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-xl font-bold text-gray-800">Recent Notes</h2>
+                <a href="#" className="text-sm font-medium text-blue-600 hover:underline">See all</a>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {mockNotes.map(note => (
+                  <NoteCard key={note.id} note={note} />
+                ))}
+              </div>
+            </section>
+        </div>
+      </main>
+    </div>
   );
 }
