@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import Sidebar from './Sidebar';
 import Header from './Header';
 import NotesPage from './NotesPage';
@@ -156,12 +157,12 @@ const Dashboard = ({ user, onUserUpdate, onLogout }) => {
   
     const renderContent = () => {
       switch (currentPage) {
-        case 'notes': return <NotesPage notes={filteredNotes} categories={categories} onToggleFavorite={handleToggleFavorite} onArchive={handleArchiveNote} onEdit={handleOpenEditModal} lang={language} />;
+        case 'notes': return <NotesPage allNotes={notes} searchQuery={searchQuery} categories={categories} onToggleFavorite={handleToggleFavorite} onArchive={handleArchiveNote} onEdit={handleOpenEditModal} lang={language} setCurrentPage={setCurrentPage} />;
         case 'tags': return <TagsPage categories={categories} notes={notes} lang={language} onCategoryClick={handleOpenCategoryModal} />;
         case 'favorites': return <FavoritesPage notes={filteredNotes} onToggleFavorite={handleToggleFavorite} onArchive={handleArchiveNote} onEdit={handleOpenEditModal} lang={language} />;
         case 'archive': return <ArchivePage archivedNotes={archivedNotes} onRestore={handleRestoreNote} onDeletePermanently={handleDeletePermanently} lang={language} />;
         case 'settings': return <SettingsPage user={user} onUserUpdate={onUserUpdate} theme={theme} setTheme={setTheme} language={language} setLanguage={setLanguage} lang={language} />;
-        default: return <NotesPage notes={filteredNotes} categories={categories} onToggleFavorite={handleToggleFavorite} onArchive={handleArchiveNote} onEdit={handleOpenEditModal} lang={language} />;
+        default: return <NotesPage allNotes={notes} searchQuery={searchQuery} categories={categories} onToggleFavorite={handleToggleFavorite} onArchive={handleArchiveNote} onEdit={handleOpenEditModal} lang={language} setCurrentPage={setCurrentPage} />;
       }
     };
   
@@ -200,7 +201,17 @@ const Dashboard = ({ user, onUserUpdate, onLogout }) => {
         <main className="ml-20 lg:ml-24 transition-all duration-300">
           <Header lang={language} user={user} searchQuery={searchQuery} onSearchChange={setSearchQuery} />
           <div className="p-8">
-            {renderContent()}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentPage}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.2 }}
+              >
+                {renderContent()}
+              </motion.div>
+            </AnimatePresence>
           </div>
         </main>
       </>
