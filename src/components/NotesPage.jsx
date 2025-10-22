@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { translations } from '../utils/translations';
-import StatCard from '../StatCard';
-import NoteCard from './NoteCard';
+import StatCard from './StatCard';
+import NoteCard from './NoteCard'; // This path is correct
 import { NotesIcon, PinIcon, StarIcon, FolderIcon } from './Icons';
 
 const containerVariants = {
