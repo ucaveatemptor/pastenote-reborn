@@ -45,6 +45,7 @@ func InitTables(DB *sql.DB) error {
 			id serial primary key,
 			name varchar(16) not null,
 			email varchar(40) unique not null,
+			password varchar(16) not null,
 			created_at timestamp default current_timestamp
 		)`,
 		`create table if not exists folders (

@@ -2,23 +2,27 @@ package main
 
 import (
 	"backend/internal/database"
+	"backend/internal/httpserver"
 	"log"
+	"net/http"
+
+	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
 )
 
 func main() {
-	// cfg := config.LoadConfig()
-	// fmt.Print(cfg)
-	// srv := new(server.Server)
-	// if err := srv.Run(cfg.Port); err != nil {
-	// 	panic(err)
-	// }
 	database.DB, _ = database.InitDB()
 	if err := database.InitTables(database.DB); err != nil {
-		log.Fatal("ds")
+		log.Fatal(err)
 	}
 
-	// srv := new(server.Server)
-	// if err := srv.Run("8080"); err != nil {
-	// 	log.Fatal(err.Error())
-	// }
+	r := chi.NewRouter()
+
+	r.Use(middleware.RequestID)
+	r.Use(middleware.RealIP)
+	r.Use(middleware.Logger)
+	r.Use(middleware.Recoverer)
+	r.Post("/sign-up", httpserver.HandleSignUp)
+
+	http.ListenAndServe(":8080", r)
 }
