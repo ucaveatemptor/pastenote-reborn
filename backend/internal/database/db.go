@@ -13,7 +13,7 @@ import (
 var DB *sql.DB
 
 func InitDB() (*sql.DB, error) {
-	err := godotenv.Load("../.env")
+	err := godotenv.Load(".env")
 	if err != nil {
 		log.Print("Error loading .env file:", err)
 		return nil, err
@@ -38,4 +38,49 @@ func InitDB() (*sql.DB, error) {
 	}
 	log.Println("Successfully connected to psqlDB")
 	return db, nil
+}
+func InitTables(DB *sql.DB) error {
+	queries := []string{
+		`create table if not exists users (
+			id serial primary key,
+			name varchar(16) not null,
+			email varchar(40) unique not null,
+			created_at timestamp default current_timestamp
+		)`,
+		`create table if not exists folders (
+			id serial primary key,
+			name varchar(50) not null,
+			user_id int references users(id),
+			created_at timestamp default current_timestamp
+		)`,
+		`create table if not exists notes (
+			id serial primary key,
+			title varchar(100) not null,
+			content text,
+			user_id int references users(id),
+			folder_id int references folders(id),
+			created_at timestamp default current_timestamp
+		)`,
+	}
+	for _, query := range queries {
+		_, err := DB.Exec(query)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+func DeleteTables(DB *sql.DB) error {
+	queries := []string{
+		`drop table if exists notes;`,
+		`drop table if exists folders;`,
+		`drop table if exists users;`,
+	}
+	for _, query := range queries {
+		_, err := DB.Exec(query)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
 }
