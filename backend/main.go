@@ -1,8 +1,6 @@
 package main
 
 import (
-	"backend/internal/database"
-	"backend/internal/httpserver"
 	"log"
 	"net/http"
 
@@ -11,18 +9,22 @@ import (
 )
 
 func main() {
-	database.DB, _ = database.InitDB()
-	if err := database.InitTables(database.DB); err != nil {
+	DB, _ = InitDB()
+	if err := DeleteTables(DB); err != nil {
 		log.Fatal(err)
 	}
-
+	if err := InitTables(DB); err != nil {
+		log.Fatal(err)
+	}
 	r := chi.NewRouter()
 
 	r.Use(middleware.RequestID)
 	r.Use(middleware.RealIP)
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
-	r.Post("/sign-up", httpserver.HandleSignUp)
+
+	r.Post("/sign-up", SignUp)
+	r.Post("/sign-in", SignIn)
 
 	http.ListenAndServe(":8080", r)
 }

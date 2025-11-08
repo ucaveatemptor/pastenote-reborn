@@ -1,4 +1,4 @@
-package note
+package main
 
 type Note struct {
 	ID      int    `json:"id"`
