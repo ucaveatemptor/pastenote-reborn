@@ -40,3 +40,12 @@ func GetUserByEmailAndPassword(email string, password string) UserResponse {
 	}
 	return u
 }
+
+func DeleteUser(userId int) error {
+	query := `
+		DELETE FROM users
+		WHERE id = $1
+	`
+	_, err := DB.Exec(query, userId)
+	return err
+}
