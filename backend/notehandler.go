@@ -18,7 +18,7 @@ func AddNote(n NewNote) error {
 	log.Print("Note Added Succesfully")
 	return nil
 }
-func GetNotes(userId int) []NoteResponse {
+func GetNotes(uir UserIdRequest) []NoteResponse {
 	var notes []NoteResponse
 	query := `
 		SELECT id, title, content, folder_id, created_at
@@ -27,7 +27,7 @@ func GetNotes(userId int) []NoteResponse {
 	`
 	rows, err := DB.Query(
 		query,
-		userId,
+		uir.ID,
 	)
 	if err != nil {
 		return nil
@@ -42,15 +42,14 @@ func GetNotes(userId int) []NoteResponse {
 			&nr.FolderID,
 			&nr.CreatedAt,
 		); err != nil {
-			log.Println("GetNotes Error")
+			log.Printf("GetNotes Error %v", err)
 			return nil
 		}
 		notes = append(notes, nr)
 	}
 	return notes
 }
-
-func UpdateNote(nu NoteUpdate) error {
+func UpdateNote(nu NoteUpdateRequest) error {
 	query := `
 		UPDATE notes
 		SET title = COALESCE(NULLIF($1, ''), title),
@@ -67,11 +66,11 @@ func UpdateNote(nu NoteUpdate) error {
 	}
 	return nil
 }
-func DeleteNote(noteId int) error {
+func DeleteNote(nir NoteIdRequest) error {
 	query := `
 		DELETE FROM notes
 		WHERE id = $1
 	`
-	_, err := DB.Exec(query, noteId)
+	_, err := DB.Exec(query, nir.ID)
 	return err
 }

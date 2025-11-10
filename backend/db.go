@@ -30,7 +30,7 @@ func InitDB() (*sql.DB, error) {
 
 	db, err := sql.Open("postgres", psqlInfo)
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 	if err := db.Ping(); err != nil {
 		log.Print("Failed to connect to the database:", err)
@@ -59,7 +59,7 @@ func InitTables(DB *sql.DB) error {
 			title varchar(100) not null,
 			content text,
 			user_id int references users(id),
-			folder_id int references folders(id),
+			folder_id int references folders(id) default null,
 			created_at timestamp default current_timestamp
 		)`,
 	}

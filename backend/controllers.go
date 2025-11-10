@@ -33,9 +33,6 @@ func SignUp(w http.ResponseWriter, r *http.Request) {
 func SignIn(w http.ResponseWriter, r *http.Request) {
 	var usi UserSignIn
 	var u UserResponse
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-	w.Header().Set("Access-Control-Allow-Methods", "POST")
 	if err := json.NewDecoder(r.Body).Decode(&usi); err != nil {
 		http.Error(w, "Wrong format JSON (SignIn)", http.StatusBadRequest)
 		return
@@ -46,5 +43,69 @@ func SignIn(w http.ResponseWriter, r *http.Request) {
 		log.Printf("Encoding error JSON-response (SignIn): %v", err)
 		return
 	}
-	log.Print("Response sent")
+	log.Print("User response sent")
+}
+func UserDelete(w http.ResponseWriter, r *http.Request) {
+	var uir UserIdRequest
+	if err := json.NewDecoder(r.Body).Decode(&uir); err != nil {
+		http.Error(w, "Wrong format JSON (UserDelete)", http.StatusBadRequest)
+		return
+	}
+	if err := DeleteUser(uir); err != nil {
+		log.Println("User Delete error")
+		return
+	}
+	log.Print("User deleted")
+}
+
+// Note
+func NoteCreate(w http.ResponseWriter, r *http.Request) {
+	var nn NewNote
+	if err := json.NewDecoder(r.Body).Decode(&nn); err != nil {
+		http.Error(w, "Wrong format JSON (NoteCreate)", http.StatusBadRequest)
+		return
+	}
+	if err := AddNote(nn); err != nil {
+		log.Println("Note Create error")
+		return
+	}
+	log.Println("Note created")
+}
+func NotesGet(w http.ResponseWriter, r *http.Request) {
+	var uir UserIdRequest
+	if err := json.NewDecoder(r.Body).Decode(&uir); err != nil {
+		http.Error(w, "Wrong format JSON (NotesGet)", http.StatusBadRequest)
+		return
+	}
+	notes := GetNotes(uir)
+	w.Header().Set("Content-Type", "application/json")
+	if err := json.NewEncoder(w).Encode(notes); err != nil {
+		log.Printf("Encoding error JSON-response (NotesGet): %v", err)
+		return
+	}
+	log.Print("Notes response sent")
+}
+func NoteUpdate(w http.ResponseWriter, r *http.Request) {
+	var nur NoteUpdateRequest
+	if err := json.NewDecoder(r.Body).Decode(&nur); err != nil {
+		http.Error(w, "Wrong format JSON (NoteDelete)", http.StatusBadRequest)
+		return
+	}
+	if err := UpdateNote(nur); err != nil {
+		log.Printf("NoteUpdate error: %v", err)
+		return
+	}
+	log.Println("Note updated")
+}
+func NoteDelete(w http.ResponseWriter, r *http.Request) {
+	var nir NoteIdRequest
+	if err := json.NewDecoder(r.Body).Decode(&nir); err != nil {
+		http.Error(w, "Wrong format JSON (NoteDelete)", http.StatusBadRequest)
+		return
+	}
+	if err := DeleteNote(nir); err != nil {
+		log.Println("Note Delete error")
+		return
+	}
+	log.Print("Note deleted")
 }

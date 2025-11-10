@@ -1,5 +1,7 @@
 package main
 
+import "database/sql"
+
 type Note struct {
 	ID       int    `json:"id"`
 	UserID   int    `json:"user_id"`
@@ -13,14 +15,17 @@ type NewNote struct {
 	Content string `json:"content"`
 }
 type NoteResponse struct {
-	ID        int    `json:"id"`
-	Title     string `json:"title"`
-	Content   string `json:"content"`
-	FolderID  int    `json:"folder_id"`
-	CreatedAt string `json:"created_at"`
+	ID        int           `json:"id"`
+	Title     string        `json:"title"`
+	Content   string        `json:"content"`
+	FolderID  sql.NullInt64 `json:"folder_id"`
+	CreatedAt string        `json:"created_at"`
 }
-type NoteUpdate struct {
+type NoteUpdateRequest struct {
 	ID      int    `json:"id"`
 	Title   string `json:"title"`
 	Content string `json:"content"`
+}
+type NoteIdRequest struct {
+	ID int `json:"id"`
 }

@@ -41,11 +41,11 @@ func GetUserByEmailAndPassword(email string, password string) UserResponse {
 	return u
 }
 
-func DeleteUser(userId int) error {
+func DeleteUser(uir UserIdRequest) error {
 	query := `
 		DELETE FROM users
 		WHERE id = $1
 	`
-	_, err := DB.Exec(query, userId)
+	_, err := DB.Exec(query, uir)
 	return err
 }
