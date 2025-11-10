@@ -10,9 +10,9 @@ import (
 
 func main() {
 	DB, _ = InitDB()
-	if err := DeleteTables(DB); err != nil {
-		log.Fatal(err)
-	}
+	// if err := DeleteTables(DB); err != nil {
+	// 	log.Fatal(err)
+	// }
 	if err := InitTables(DB); err != nil {
 		log.Fatal(err)
 	}
@@ -22,6 +22,7 @@ func main() {
 	r.Use(middleware.RealIP)
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
+	r.Use(middleware.AllowContentEncoding())
 
 	r.Post("/sign-up", SignUp)
 	r.Post("/sign-in", SignIn)
