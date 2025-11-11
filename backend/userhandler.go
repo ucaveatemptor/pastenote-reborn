@@ -2,27 +2,50 @@ package main
 
 import (
 	"database/sql"
-	"fmt"
 	"log"
 )
 
 func AddUser(nu NewUser) error {
-	_, err := DB.Exec("INSERT INTO users (name, password, email) VALUES ($1, $2, $3)", nu.Username, nu.Password, nu.Email)
-	if err != nil {
-		log.Fatal(err)
+	query := `
+		INSERT INTO users (name, password, email)
+		VALUES ($1, $2, $3)
+	`
+	if _, err := DB.Exec(
+		query,
+		nu.Username,
+		nu.Password,
+		nu.Email,
+	); err != nil {
+		return err
 	}
-	fmt.Println("User Added Succesfully")
+	log.Print("User Added Succesfully")
 	return nil
 }
 func GetUserByEmailAndPassword(email string, password string) UserResponse {
 	var u UserResponse
-	row := DB.QueryRow("SELECT id, name, email FROM users WHERE email = $1 AND password = $2", email, password)
-	err := row.Scan(&u.ID, &u.Username, &u.Email)
-	if err != nil {
+	query := `
+		SELECT id, name, email 
+		FROM users 
+		WHERE email = $1 AND password = $2
+	`
+	if err := DB.QueryRow(
+		query,
+		email,
+		password,
+	).Scan(&u.ID, &u.Username, &u.Email); err != nil {
 		if err == sql.ErrNoRows {
-			log.Print("Пользователь не найден")
+			log.Print("User not found")
 		}
 		log.Print(err)
 	}
 	return u
+}
+
+func DeleteUser(uir UserIdRequest) error {
+	query := `
+		DELETE FROM users
+		WHERE id = $1
+	`
+	_, err := DB.Exec(query, uir)
+	return err
 }
