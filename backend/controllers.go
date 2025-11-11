@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"strconv"
 )
 
 // User
@@ -46,12 +47,17 @@ func SignIn(w http.ResponseWriter, r *http.Request) {
 	log.Print("User response sent")
 }
 func UserDelete(w http.ResponseWriter, r *http.Request) {
-	var uir UserIdRequest
-	if err := json.NewDecoder(r.Body).Decode(&uir); err != nil {
-		http.Error(w, "Wrong format JSON (UserDelete)", http.StatusBadRequest)
+	userIDStr := r.URL.Query().Get("user_id")
+	if userIDStr == "" {
+		http.Error(w, "missing user_id", http.StatusBadRequest)
 		return
 	}
-	if err := DeleteUser(uir); err != nil {
+	userID, err := strconv.Atoi(userIDStr)
+	if err != nil {
+		http.Error(w, "invalid user_id", http.StatusBadRequest)
+		return
+	}
+	if err := DeleteUser(userID); err != nil {
 		log.Println("User Delete error")
 		return
 	}
@@ -72,12 +78,17 @@ func NoteCreate(w http.ResponseWriter, r *http.Request) {
 	log.Println("Note created")
 }
 func NotesGet(w http.ResponseWriter, r *http.Request) {
-	var uir UserIdRequest
-	if err := json.NewDecoder(r.Body).Decode(&uir); err != nil {
-		http.Error(w, "Wrong format JSON (NotesGet)", http.StatusBadRequest)
+	userIDStr := r.URL.Query().Get("user_id")
+	if userIDStr == "" {
+		http.Error(w, "missing user_id", http.StatusBadRequest)
 		return
 	}
-	notes := GetNotes(uir)
+	userID, err := strconv.Atoi(userIDStr)
+	if err != nil {
+		http.Error(w, "invalid user_id", http.StatusBadRequest)
+		return
+	}
+	notes := GetNotes(userID)
 	w.Header().Set("Content-Type", "application/json")
 	if err := json.NewEncoder(w).Encode(notes); err != nil {
 		log.Printf("Encoding error JSON-response (NotesGet): %v", err)
@@ -98,12 +109,17 @@ func NoteUpdate(w http.ResponseWriter, r *http.Request) {
 	log.Println("Note updated")
 }
 func NoteDelete(w http.ResponseWriter, r *http.Request) {
-	var nir NoteIdRequest
-	if err := json.NewDecoder(r.Body).Decode(&nir); err != nil {
-		http.Error(w, "Wrong format JSON (NoteDelete)", http.StatusBadRequest)
+	noteIDStr := r.URL.Query().Get("note_id")
+	if noteIDStr == "" {
+		http.Error(w, "missing note_id", http.StatusBadRequest)
 		return
 	}
-	if err := DeleteNote(nir); err != nil {
+	noteID, err := strconv.Atoi(noteIDStr)
+	if err != nil {
+		http.Error(w, "invalid note_id", http.StatusBadRequest)
+		return
+	}
+	if err := DeleteNote(noteID); err != nil {
 		log.Println("Note Delete error")
 		return
 	}
